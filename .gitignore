@@ -52,6 +52,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
+apps/*/migrations/
 *.log
 TaleTalker/local_settings.py
 db.sqlite3
