@@ -1,6 +1,6 @@
 from typing import Union
 
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from django.utils.translation import ugettext_lazy as _
@@ -42,18 +42,22 @@ class Character(BaseTimeStampModel):
 
     name = models.CharField(verbose_name=_('Imie'),
                             max_length=128)
-    second_names = JSONField(verbose_name=_('Kolejne imion'),
-                             default=list,
-                             null=True,
-                             blank=True)
+    second_names = ArrayField(verbose_name=_('Kolejne imion'),
+                              base_field=models.CharField(
+                                  max_length=128
+                              ),
+                              null=True,
+                              blank=True)
     surname = models.CharField(verbose_name=_('Nazwisko'),
                                max_length=128,
                                null=True,
                                blank=True)
-    second_surnames = JSONField(verbose_name=_('Kolejne nazwiska'),
-                                default=list,
-                                null=True,
-                                blank=True)
+    second_surnames = ArrayField(verbose_name=_('Kolejne nazwiska'),
+                                 base_field=models.CharField(
+                                     max_length=128
+                                 ),
+                                 null=True,
+                                 blank=True)
     description = models.TextField(verbose_name=_("Opis profesji"))
     attribute = models.ManyToManyField(Attribute,
                                        verbose_name=_('Atrybut'),
