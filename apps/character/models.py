@@ -5,25 +5,32 @@ from django.db import models
 
 from django.utils.translation import ugettext_lazy as _
 
-from apps.location.models import Location, BaseNameModel, BaseModel, BaseTimeStampModel
+from apps.location.models import (
+    Location,
+    BaseNameModel,
+    BaseModel,
+    BaseTimeStampModel,
+)
 
 
 class AttributeType(BaseNameModel):
     class Meta:
-        verbose_name = _('Typ Atrybutu')
-        verbose_name_plural = _('Typy Atrybutu')
+        verbose_name = _("Typ Atrybutu")
+        verbose_name_plural = _("Typy Atrybutu")
 
 
 class Attribute(BaseModel):
     class Meta:
-        verbose_name = _('Atrybut')
-        verbose_name_plural = _('Atrybuty')
+        verbose_name = _("Atrybut")
+        verbose_name_plural = _("Atrybuty")
 
-    type = models.ForeignKey(AttributeType,
-                             verbose_name=_("Typ Atrybutu"),
-                             null=False,
-                             blank=False,
-                             on_delete=models.PROTECT)
+    type = models.ForeignKey(
+        AttributeType,
+        verbose_name=_("Typ Atrybutu"),
+        null=False,
+        blank=False,
+        on_delete=models.PROTECT,
+    )
 
     def __str__(self):
         return "{}: {}".format(self.type.name, self.name)
@@ -37,36 +44,36 @@ class Attribute(BaseModel):
 
 class Character(BaseTimeStampModel):
     class Meta:
-        verbose_name = _('Postać')
-        verbose_name_plural = _('Postacie')
+        verbose_name = _("Postać")
+        verbose_name_plural = _("Postacie")
 
-    name = models.CharField(verbose_name=_('Imie'),
-                            max_length=128)
-    second_names = ArrayField(verbose_name=_('Kolejne imion'),
-                              base_field=models.CharField(
-                                  max_length=128
-                              ),
-                              null=True,
-                              blank=True)
-    surname = models.CharField(verbose_name=_('Nazwisko'),
-                               max_length=128,
-                               null=True,
-                               blank=True)
-    second_surnames = ArrayField(verbose_name=_('Kolejne nazwiska'),
-                                 base_field=models.CharField(
-                                     max_length=128
-                                 ),
-                                 null=True,
-                                 blank=True)
+    name = models.CharField(verbose_name=_("Imie"), max_length=128)
+    second_names = ArrayField(
+        verbose_name=_("Kolejne imion"),
+        base_field=models.CharField(max_length=128),
+        null=True,
+        blank=True,
+    )
+    surname = models.CharField(
+        verbose_name=_("Nazwisko"), max_length=128, null=True, blank=True
+    )
+    second_surnames = ArrayField(
+        verbose_name=_("Kolejne nazwiska"),
+        base_field=models.CharField(max_length=128),
+        null=True,
+        blank=True,
+    )
     description = models.TextField(verbose_name=_("Opis profesji"))
-    attribute = models.ManyToManyField(Attribute,
-                                       verbose_name=_('Atrybut'),
-                                       blank=True)
-    provenience = models.ForeignKey(Location,
-                                    on_delete=models.PROTECT,
-                                    verbose_name=_("Pochodzenie"),
-                                    null=True,
-                                    blank=True)
+    attribute = models.ManyToManyField(
+        Attribute, verbose_name=_("Atrybut"), blank=True
+    )
+    provenience = models.ForeignKey(
+        Location,
+        on_delete=models.PROTECT,
+        verbose_name=_("Pochodzenie"),
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.name
